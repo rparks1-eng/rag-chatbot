@@ -10,7 +10,7 @@ import streamlit as st
 
 load_dotenv()
 
-DATA_DIR = Path("data")
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
 
 def get_api_key():
@@ -53,8 +53,10 @@ def validate_data_directory():
 def get_query_engine(api_key):
     """Build and return the handbook query engine."""
     Settings.llm = GoogleGenAI(
-        model="gemini-3.8-flash",
-        api_key=api_key
+        model="gemini-3.1-flash-lite",
+        api_key=api_key,
+        max_tokens=1200,
+        temperature=0,
     )
     Settings.embed_model = HuggingFaceEmbedding(
         model_name="BAAI/bge-small-en-v1.5"
